@@ -1,0 +1,26 @@
+ <!-- header.html (Final_PRJ) -->
+ <nav class='navbar navbar-default'>
+    <div class='container-fluid'>
+    <div class='navbar-header'>
+    <div class='navbar-brand' align=center>
+        天天誼家社區公寓管理網
+   </div>
+    </div>
+    <ul class='nav navbar-nav'>
+        <li class="{% if request.path == '/' %}active{% endif %}"><a href='/'>首頁</a></li>
+        <li class="{% if request.path == '/post/' %}active{% endif %}"><a href='/post'>社區布告欄</a></li>
+        {% if username %}   
+        <li class="{% if request.path == '/forum/' %}active{% endif %}"><a href='/forum'>社區問題討論</a></li>
+        <li class="{% if request.path == '/public/' %}active{% endif %}"><a href='/public'>社區課程與活動</a></li> 
+        <li class="{% if request.path == '/poll/'%}active{% endif %}"><a href='/poll'>投票與調查表</a></li>
+        <li  class="{% if request.path == '/payment/'%}active{% endif %}"><a href='/payment'>管理費繳交</a></li>
+        <li class="{% if request.path == '/mail/' %}active{% endif %}"><a href='/mail'>信件與包裹</a></li>
+        <li class="{% if request.path == '/userinfo/' %}active{% endif %}"><a href='/userinfo'>個人資料</a></li>
+        <li><a href='/logout'>登出</a></li>
+        {% else %}
+        <li class="{% if request.path == '/login/' %}active{% endif %}"><a href='/login'>登入</a></li>
+        <li class="{% if request.path == '/sign_up/' %}active{% endif %}"><a href='/sign_up'>註冊</a></li>
+        {% endif %}   			
+    </ul>
+    </div>
+    </nav>

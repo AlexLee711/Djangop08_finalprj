@@ -1,0 +1,104 @@
+<!-- mail.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+<div class="container">
+    {% for message in messages %}
+    <div class='alert alert-{{ message.tags }}'>{{ message }}</div>
+    {% endfor %}
+    <h1>{{ username }} 的包裹與信件</h1>
+    <hr>
+    {% if mail|length == 0 %}
+    <h3>暫無包裹或信件</h3>
+    {% endif %}
+    <!-- 未領取的包裹與信件 -->
+    <h4>未領取</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr bgcolor='#333533' style="color: white">
+                <td width=100>收件人</td>
+                <td width=250>寄件人</td>
+                <td width=80>包裹種類</td>
+                <td width=200>備註</td>
+                <td width=150>到貨時間</td>
+                <!--<td width=80>狀態</td>-->
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in mail %}
+                {% if m.status == 'N' %}
+                <tr bgcolor='{% cycle "#cfdbd5" "e8eddf" %}'>
+                    <td>{{ m.receiver }}</td>
+                    <td>{{ m.sender }}</td>
+                    <td>{{ m.get_mail_type_display }}</td>
+                    <td>{{ m.note }}</td>
+                    <td>{{ m.time }}</td>
+                    <!--<td>{{ m.get_status_display }}</td>-->
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- 已領取的包裹與信件 -->
+    <h4>已領取</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr bgcolor='#333533' style="color: white">
+                <td width=100>收件人</td>
+                <td width=250>寄件人</td>
+                <td width=80>包裹種類</td>
+                <td width=200>備註</td>
+                <td width=150>到貨時間</td>
+                <!--<td width=80>狀態</td>-->
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in mail %}
+                {% if m.status == 'Y' %}
+                <tr bgcolor='{% cycle "#cfdbd5" "e8eddf" %}'>
+                    <td>{{ m.receiver }}</td>
+                    <td>{{ m.sender }}</td>
+                    <td>{{ m.get_mail_type_display }}</td>
+                    <td>{{ m.note }}</td>
+                    <td>{{ m.time }}</td>
+                    <!--<td>{{ m.get_status_display }}</td>-->
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+<hr>
+<!-- 其他狀態的包裹與信件 -->
+<h4>其他狀態(如有疑惑請聯絡櫃台)</h4>
+<table class="table table-bordered">
+    <thead>
+        <tr bgcolor='#333533' style="color: white">
+            <td width=100>收件人</td>
+            <td width=250>寄件人</td>
+            <td width=80>包裹種類</td>
+            <td width=200>備註</td>
+            <td width=150>到貨時間</td>
+            <!--<td width=80>狀態</td>-->
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in mail %}
+            {% if m.status == 'O' %}
+            <tr bgcolor='{% cycle "#cfdbd5" "e8eddf" %}'>
+                <td>{{ m.receiver }}</td>
+                <td>{{ m.sender }}</td>
+                <td>{{ m.get_mail_type_display }}</td>
+                <td>{{ m.note }}</td>
+                <td>{{ m.time }}</td>
+                <!--<td>{{ m.get_status_display }}</td>-->
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+    
+
+{% endblock %}

@@ -1,0 +1,65 @@
+<!-- payment.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+<div class="container">
+
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h1>{{fee.title}}繳費細項</h1>
+        </div>
+        <div class="panel-body">
+            {% if fee.is_overdue %}
+            <div class="alert alert-danger" role="alert">
+                <strong>注意！</strong> 此繳費項目已逾期。請盡快繳納管理費以免影響您的權益。
+            </div>
+            {% else %}
+                <p>繳費狀態：未逾期</p>
+            {% endif %}
+            <h4>住戶 -{{ fee.profile.build}}棟{{ fee.profile.floor}}樓{{ fee.profile.household}}戶</h4>
+            <h4>本期費用 - {{ fee.amount }} 元</h4>
+            <h4>繳費期限 - {{ fee.due_date }} </h4>
+            {% if not fee.status%}
+            <h4>繳費狀態 - 尚未繳費 </h4>
+                {% if not fee.payway %}
+                    <form method="post" action="{% url 'payment' fee.id %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <p>若是選擇Line Pay方式繳費，按下確定後請回到此繳費系像掃描QR Code完成繳費。</p>
+                        <button type="submit" class="btn btn-primary">確定繳費方式</button>
+                    </form>
+                {% else %}
+                    
+                    {% if fee.payway == 'CS' or fee.payway == 'ATM'%}
+                        <h4>繳費方式 - {{ fee.get_payway_display }} 
+                        <small>(請將管理費單據於時間內帶至超商或銀行ATM進行繳費。)</small></h4>
+                    {% elif fee.payway == 'LP' %}
+                        <h4>繳費方式 - {{ fee.get_payway_display }} </h4>
+                        <p>(請掃碼繳費！)</p>
+                        {% load static %}
+                        <img id="linepay-qr" src="{% static 'images/qrcode.jpg' %}" class="img-fluid" style="display: block;">
+                    {% endif %}
+                {% endif %}
+                
+            {% else%}
+                <h4>繳費狀態 - 已繳費 </h4>
+                <h4>繳費日期 - {{ fee.payment_date }}</h4>
+            {% endif %}
+        </div>
+
+        <div class="panel-footer text-muted">
+            {% if not fee.status%}
+            <p>若是繳費已經確定入帳後，管理員將會協助將繳費狀態更改為已繳費。若繳費後超過一週尚未有狀態更動，請主動聯絡社區大樓櫃台管理人員，謝謝！</p>
+            <a class="btn btn-info" href="/payment" role="button">返回上一頁</a>
+            {% else%}
+            <a class="btn btn-info" href="/payment" role="button">返回上一頁</a>
+            {% endif %}
+        </div>
+        
+    </div>
+
+</div>
+
+
+{% endblock %}

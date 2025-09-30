@@ -1,0 +1,27 @@
+<!-- payment_list.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+<div class="container">
+    <h1>管理費費用繳交狀態</h1>
+    <hr>
+    <p><em>各住戶請注意：每戶將會進行紙本登記作業，系統將只會在此處顯示管理費資訊給該戶紙本登記的住戶帳號(因為每戶只需一人做繳費即可)</em></p>
+    {% for fee in fees %}
+    {% if not fee.status%}
+    <ul>
+    <li>
+        <p><a href="{% url 'payment' fee.id %}">{{ fee.title }} - {{ fee.amount }} 元</a>(<span class="glyphicon glyphicon-remove" style="color: red"></span> 尚未繳費)</p>
+    </li>
+    </ul>
+    {%else%}
+    <ul>
+    <li>
+        <p><a href="{% url 'payment' fee.id %}">{{ fee.title }} - {{ fee.amount }} 元</a>(<span class="glyphicon glyphicon-ok" style="color: green"></span> 已繳費)</p>
+    </li>
+    </ul>
+    {% endif %}
+    
+    {% endfor %}
+</div>
+{% endblock %}

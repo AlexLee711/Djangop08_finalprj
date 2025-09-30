@@ -1,0 +1,169 @@
+<!-- index.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+<div class='container'>
+    {% for message in messages %}
+    <div class='alert alert-{{ message.tags }}'>{{ message }}</div>
+    {% endfor %}
+</div>
+<div class="jumbotron">
+    <div class="container">
+        <h1>天天誼家社區公寓</h1>
+        <h2>本網站提供社區住戶智慧生活功能，請住戶依照管理員指示進行登錄與註冊</h2>
+        <p>地址：821 高雄市路竹區三公路5號</p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3676.406306474028!2d120.22246637419407!3d22.86144452232404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e0b1398a31f85%3A0x58956106ce5e4eca!2zODIx6auY6ZuE5biC6Lev56u55Y2A5LiJ5YWs6LevNeiZnw!5e0!3m2!1szh-TW!2stw!4v1723789333788!5m2!1szh-TW!2stw" width="1000" height="225" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <article>
+            <div class="col-sm-8">
+                <ul class="nav nav-tabs">
+                    {% if username %}
+                    <li class="{% if username %}active{% endif %}">
+                      <a href="#tab1" data-toggle="tab">社區條規</a>
+                    </li>
+                    <li>
+                        <a href="#tab2" data-toggle="tab">社區管委會</a>
+                    </li>
+                    <li>
+                        <a href="#tab3" data-toggle="tab">社區管理員</a>
+                    </li>
+                    {% endif%}
+                    <li class="{% if not username %}active{% endif %}">
+                        <a href="#tab4" data-toggle="tab">社區相片</a>
+                    </li>
+                    <li>
+                        <a href="#tab5" data-toggle="tab">生活資訊</a>
+                    </li>
+                  </ul>
+                
+                    <div class="tab-content">
+                        {% if username %}
+                        <div class="tab-pane fade {% if username %}in active{% endif %}" id="tab1">
+                            <ol>
+                                <li><strong>寧靜時間規定：</strong>社區內每日晚上10點至早上7點為寧靜時間，請避免大聲喧嘩、使用高噪音設備或進行任何會影響他人休息的活動。</li>
+                                <li><strong>公共區域清潔：</strong>住戶應共同維護公共區域的清潔，禁止在走廊、電梯、樓梯間等公共場所堆放雜物或垃圾。</li>
+                                <li><strong>寵物管理：</strong>社區允許飼養寵物，但寵物需始終保持牽繩狀態，並由飼主負責即時清理寵物排泄物。寵物吠叫或其他噪音應控制在不影響他人正常生活的範圍內。</li>
+                                <li><strong>車位使用：</strong>住戶應按規定停放車輛於指定車位，禁止占用他人車位或將車輛停放於非停車區域。臨時停車請勿超過15分鐘。</li>
+                                <li><strong>裝修施工時間：</strong>裝修施工僅允許於工作日早上9點至下午5點進行，禁止在周末或公共假日進行高噪音的施工活動。</li>
+                                <li><strong>垃圾分類及處理：</strong>社區實行垃圾分類制度，請按指示將垃圾分為可回收物、廚餘垃圾、有害垃圾及其他垃圾，並於指定時間和地點投放。</li>
+                                <li><strong>住戶安全：</strong>為保障社區安全，禁止未經允許的外來人員進入社區。訪客需在門禁系統登記並經住戶同意方可進入。</li>
+                                <li><strong>公共設施使用：</strong>社區的公共設施如健身房、游泳池、會所等僅供住戶使用，使用時請遵守設施的具體規定，並愛護設施，避免損壞。</li>
+                                <li><strong>陽台使用規範：</strong>禁止在陽台晾曬衣物、掛放雜物或懸掛旗幟、廣告等影響社區整潔的物品。</li>
+                                <li><strong>違規停車罰則：</strong>如有住戶或訪客違規停車，社區管理委員會有權對其處以罰款或拖離車輛。</li>
+                            </ol>
+                        </div>
+                        <div class="tab-pane fade" id="tab2">
+                            <h4>管委會委員：</h4>
+                            <ul>
+                                <li>主任委員：詹子瑜</li>
+                                <li>副主任委員：孟庭瑋</li>
+                                <li>財務委員：焦詠晴</li>
+                                <li>監察委員：蔡家豪</li>
+                                <li>秘書：龍宥辰</li>
+                                <li>安全委員：李欣妤</li>
+                                <li>機電委員：晉祐霖</li>
+                            </ul>
+                            
+                        </div>
+                        <div class="tab-pane fade" id="tab3">
+                            <h4>社區管理主任：姜辛傑</h4>
+                            <h4>管理員：</h4>
+                            <ul>
+                                <li>曹佳儀(組長)</li>
+                                <li>黃昱翔</li>
+                                <li>李書芸</li>
+                                <li>謝承翰</li>
+                                <li>吳怡婷</li>
+                            </ul>
+                            
+                        </div>
+                        {% endif%}
+                        <div class="tab-pane fade {% if not username %}in active{% endif %}" id="tab4">
+                            <img src="static\images\building_index.jpg" class="img-thumbnail" style="width: 225px">
+                            <img src="static\images\lobby.jpg" class="img-thumbnail" style="width: 225px">
+                            <img src="static\images\gym.jpg" class="img-thumbnail" style="width: 225px">
+                            <img src="static\images\readroom.jpg" class="img-thumbnail" style="width: 225px">
+                            <img src="static\images\pool.jpg" class="img-thumbnail" style="width: 225px">
+                            <img src="static\images\side.jpg" class="img-thumbnail" style="width: 225px">
+                        </div>
+                        <div class="tab-pane fade" id="tab5">
+                            <h4>樓下商店：</h4>
+                            <ul>
+                                <li>精品超市-Mia C'bon超市</li>
+                                <li>咖啡廳-Cama Cafe</li>
+                                <li>餐廳-Haha夏威夷拌飯、木盆沙拉、池上養生飯包</li>
+                                <li>便利超商-7-11</li>
+                            </ul>
+                            <h4>交通：</h4>
+                            <ul>
+                                <li>捷運-林江公館站</li>
+                                <li>輕軌-林江公園站</li>
+                                <li>公車-林江公園站牌：11、208、綠7、24、三公幹線</li>
+                            </ul>
+                        </div>
+
+                    </div>
+            </div>
+        </article>
+        <aside>
+            <div class="col-sm-3 col-sm-offset-1">
+                {% if username %}
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 align=center>天天誼家社區公寓</h4> <h4 align=center>社區網頁系統</h4>
+                    </div>
+                <div class="panel-body">
+                    <h4>歡迎：{{username}}</h4>
+                    <p>心情小語-<em>{{quote}}</em></p>
+                </div>
+            </div>
+                {% else %}
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 align=center>天天誼家社區公寓</h4> <h4 align=center>社區網頁系統</h4>
+                    </div>
+                <div class="panel-body">
+                    <center>
+                    <a class="btn btn-primary" href="/sign_up" role="button">註冊</a>
+                    <a class="btn btn-info" href="/login" role="button">登入</a>
+                    </center>
+                </div>
+            </div>
+        
+                {% endif%}
+        </div>
+        </aside>
+    </div>   
+</div>
+<hr>
+<div class="container">
+<div class="row">
+    <div class="col-md-7 col-md-push-5">
+        <h2>天天誼家公寓大樓社區</h2>
+        <p>歡迎來到天天誼家社區，一個集現代生活便利與自然環境優美於一體的理想居所。我們的社區位於市中心，交通便利，距離主要商業區和地鐵站僅幾步之遙，同時卻能享受寧靜的居住環境。</p>
+        <p>社區整體設計秉持著現代與自然融合的理念。樓宇採用高端環保材料建造，外觀簡潔大氣，內部裝修精緻考究。我們提供多種戶型選擇，滿足單身貴族、小家庭或多口之家的不同居住需求。</p>
+        <h3><strong>社區特色：</strong></h3>
+        <ul>
+            <li><strong>豐富的綠化帶：</strong>社區內設有寬敞的綠化帶和小型公園，業主可以在這裡享受晨跑、散步或與家人一起度過悠閒時光。</li>
+            <li><strong>完備的設施：</strong>包括24小時安保系統、恆溫泳池、健身房、兒童遊樂區及多功能會所等，所有設施均為業主免費開放。</li>
+            <li><strong>智慧社區：</strong>配備智能門禁系統，住戶可通過手機APP進行訪客管理、快遞收取、車位預訂等日常事務的操作。</li>
+            <li><strong>教育資源：</strong>社區周邊有多所優質學校，孩子們可以享受到高水準的教育資源。</li>
+            <li><strong>便利生活：</strong>樓下設有精品超市、咖啡廳和餐廳，足不出戶即可享受都市的便利生活。</li>
+        </ul>
+        <p>天天誼家社區致力於為每一位住戶打造舒適、安全和溫馨的家園。在這裡，您不僅能擁有理想的生活空間，更能體驗到社區的溫暖與關懷。</p>
+    </div>
+    <div class="col-md-5 col-md-pull-7">
+        <img src="static\images\building_index.jpg" class="img-responsive">
+    </div>
+</div>
+</div>
+
+
+
+
+
+{% endblock %}

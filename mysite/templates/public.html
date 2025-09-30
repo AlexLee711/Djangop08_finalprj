@@ -1,0 +1,58 @@
+<!-- public.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+{% for a in activity %}
+{% if forloop.first %}
+<div class="container">
+    {% for message in messages %}
+    <div class='alert alert-{{ message.tags }}'>{{ message }}</div>
+    {% endfor %}
+    <h1>社區課程與活動</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">目前的社區課程與活動</li>
+          <li class="breadcrumb-item" ><a href="{% url 'user_registered_activities' %}">我已報名的活動</a></li>
+        </ol>
+    </nav>
+    <hr>
+    
+    <h4>公設與活動簡介：</h4>
+    <ul>
+        <li>本社區大樓提供多項公共設施(包含健身房、閱覽室、交誼廳、練歌房以及游泳池)提供住戶使用，如需使用請至大樓櫃台進行登記即可使用！</li>
+        <li>本社區大樓不定時將舉辦各項活動或課程，旨在希望住戶可以多加利用公設及促進社區住戶彼此熟悉與緊密度~</li>
+    </ul>
+    <br>
+    <h4>報名中的課程：</h4>
+    <ul>
+        <li>說明 - 以下活動或課程歡迎住戶踴躍報名，請接在活動日前一天完成報名，且名額有限。若活動當日仍有名額且想報名，請直接至大樓櫃台現場報名，謝謝！</li>
+    </ul>
+    <table class="table table-hover" id="table" data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-page-size="5" data-page-number="1" data-page-list="[10, 25, 50, 100, all]" data-response-handler="responseHandler">
+        <thead>
+        <tr bgcolor='#333533' style="color: white">
+            <td width=90>活動/課程名稱</td>
+            <td width=250>描述</td>
+            <td width=50>地點</td>
+            <td width=60>日期</td>
+            <td width=60>目前人數/人數上限</td>
+        </tr>
+        </thead>
+        {% endif %}
+        <tbody>
+        <tr bgcolor='{% cycle "#cfdbd5" "e8eddf" %}'>
+            <td><a href="{% url 'apply_for_activity' a.id %}">{{ a.name }}</a></td>
+            <td>{{ a.description }}</td>
+            <td>{{ a.location }}</td>
+            <td>{{ a.date }}</td>
+            <td>{{ a.current_participants}} / {{ a.max_particioants}}</td>
+        </tr>
+        </tbody>
+        {% if forloop.last %}
+    </table>
+    {% endif %}
+    {% empty %}
+    <h3>暫無活動與課程</h3>
+    {% endfor %}
+</div>
+{% endblock %}

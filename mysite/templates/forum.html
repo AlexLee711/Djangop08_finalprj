@@ -1,0 +1,117 @@
+<!-- forum.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+<div class='container'>
+    {% if message %}
+    <div class='alert alert
+    warning'>{{ message }}</div>
+    {% endif %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><a href="#collapsepost" data-toggle="collapse">張貼議題討論貼文</a></h4>
+        </div>
+        <div id="collapsepost" class="panel-collapse collapse">
+            <div class="panel-body">
+                <form name='my form' action='.' method='POST'>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="id_title">標題：</label>
+                        {{ forum_form.title}}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_body">內文：</label>
+                        {{ forum_form.body}}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_posttime">發布時間：</label>
+                        {{ forum_form.posttime}}
+                    </div>
+                    <br />
+                    <input type='submit' value='張貼' class="btn btn-info">
+                    <input type='reset' value='清除重填' class="btn btn-danger">
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='panel panel-default'>
+                <div class='panel-heading' align=center>
+                    <h1>社區議題討論</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for forum in forums %}
+    {% cycle "<div class='row'>" "" "" %}
+        <div class='col-md-4'>
+            <div class='panel panel-primary'>
+                <div class='panel-heading' align=center>
+                    {{ forum.title }}
+                </div>
+                <div class='panel-body'>
+                    {{ forum.body | linebreaks }}
+                    <hr>
+                    <h4><a data-toggle="collapse" data-target="#commentsCollapse{{ forum.id }}" style="cursor: pointer;">查看留言：</a></h4>
+                    <div id="commentsCollapse{{ forum.id }}" class="collapse">
+                    <ul>
+                    {% for comment in forum.comments.all %}
+                        <li><strong>{{ comment.user.username }}</strong>: {{ comment.body }} ({{ comment.posttime }})</li>
+                        
+                        {% if request.user == comment.user%}
+                        <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link text-danger p-0">🗑️ 刪除</button>
+                        </form>
+                        
+                        {% endif %}
+                        {% empty %}
+                            <p>尚無留言</p>
+                    {% endfor %}
+                </ul>
+                </div>
+                <br>
+                <form method="POST" action=".">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="form-group">
+                            {{ comment_form.body}}
+                        </div>
+                    </div>
+                    <input type="hidden" name="forum_id" value="{{ forum.id }}">
+                    <input type="submit" name="comment_submit" value="發表留言" class="btn btn-primary">
+                </form>
+            </div>
+
+                <div class='panel-footer'>
+                    <small>發布人：{{ forum.user }} / </small>
+                    <small>發布時間：{{ forum.posttime }}</small>
+            {% if request.user == forum.user%}
+            <span class="glyphicon glyphicon-trash" onclick='go_delete({{forum.id}})' style="cursor: pointer; float: right;" ></span><!--onclick='go_delete({{diary.id}})'-->
+            {% endif %}
+        </div>
+    </div>
+</div>    
+{% endfor %}
+</div>
+    <!--{% if messages %}
+            <script>
+                {% for msg in messages%}
+                    alert('{{ msg.message}}');
+                {% endfor %}
+            </script>
+    {% endif %}-->
+    <script>
+        function go_delete(id){
+            var confrimation = confirm("你確定要刪除這個貼文或留言嗎？");
+            if(confrimation){
+                var usr = '/'+ id +'/';
+                window.location = usr;
+            }
+            
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,21 @@
+<!-- postdetails.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+<div class="container center">
+    {% for message in messages %}
+    <div class='alert alert-{{ message.tags }}'>{{ message }}</div>
+    {% endfor %}
+<h1>{{post.title}}</h1>
+<hr>
+<h4>公告人：{{post.person}}</h4>
+<h4>公告類別/單位：{{post.get_unit_display}}</h4>
+<h4>公告日期：{{post.pub_date}}</h4>
+<h3>{{post.body}}</h3>
+<br>
+<a class="btn btn-info" href="/post" role="button">返回社區布告欄</a>
+</div>
+
+
+{% endblock %}

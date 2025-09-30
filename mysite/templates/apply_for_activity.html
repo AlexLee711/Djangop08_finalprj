@@ -1,0 +1,59 @@
+<!-- apply_for_activity.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+<div class="container">
+    {% if message %}
+    <div class='alert alert
+    warning'>{{ message }}</div>
+    {% endif %}
+<form method="POST" action="{% url 'apply_for_activity' activity.id %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="id_user">使用者：</label>
+        <p>{{ request.user.username}}</p>
+    </div>
+    <div class="form-group">
+        <label for="id_profile">個人資料：</label>
+        <p>{{ request.user.profile.build}}棟{{ request.user.profile.floor }}樓 {{ request.user.profile.household }}戶</p>
+        <p>連絡電話： {{ request.user.profile.phone }}</p>
+    </div>
+    <div class="form-group">
+        <label for="id_activity">活動：</label>
+        <p>{{ activity.name}}</p>
+    </div>   
+
+    {% if is_full %}
+        <p class="text-danger">活動已額滿</p>
+    {% else %}
+    <div class="form-group">
+        <label for="id_participant_count">報名人數：</label>
+        {% if existing_application %}
+        <p>{{ existing_application.participant_count}}</p>
+        {% else %}
+        {{ form.participant_count}}
+        {% if form.participant_count.errors %}
+        <p class="text-danger" style="color: red">報名人數至少1人，不可為0</p>
+        {% endif %}
+        
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <p>目前報名人數：{{ activity.current_participants }} / {{ activity.max_particioants }}</p>
+    </div>
+    {% if not existing_application %}
+        <input type='submit' value="報名" class="btn btn-success">
+    {% endif %}
+    {% endif %}
+</form>
+    {% if existing_application %}
+    <form method="POST" action="{% url 'cancel_application' activity.id %}">
+        {% csrf_token %}
+        <input type="submit" value="取消報名" class="btn btn-danger">
+    {% endif %}
+    </form>
+    <hr>
+    <a class="btn btn-info" href="/public" role="button" style="float: right">返回社區課程與活動頁面</a>
+</div>
+{% endblock %}

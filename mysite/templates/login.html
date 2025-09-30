@@ -1,0 +1,36 @@
+<!-- login.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+<div class='container'>
+    {% for message in messages %}
+    <div class='alert alert-{{ message.tags }}'>{{ message }}</div>
+    {% endfor %}
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='panel panel-default'>
+                <div class='panel-heading' align=center>
+                    <h3>登入 天天誼家公寓管理網</h3>
+                </div>
+            </div>
+            <form action='.' method='POST'>
+                {% csrf_token%}
+                <div class="form-group">
+                    <label for="id_username">姓名：</label>
+                    {{ login_form.username}}
+                </div>
+                <div class="form-group">
+                    <label for="id_password">密碼：</label>
+                    {{ login_form.password }}
+                </div>
+                    <!--<table>
+                        {{login_form.as_table}}
+                    </table>-->
+                <input type='submit' value='登入' class="btn btn-primary"><br/>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

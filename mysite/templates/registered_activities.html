@@ -1,0 +1,45 @@
+<!-- registered_activities.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+<div class="container">
+    <h1>我已報名的活動</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/public">目前的社區課程與活動</a></li>
+          <li class="breadcrumb-item">我已報名的活動</li>
+        </ol>
+    </nav>
+    <hr>
+    <p>即將來臨的活動：</p>
+    <ul>
+        {% for application in registered_activities %}
+            <li>
+                <strong>{{ application.activity.name }}</strong> - {{ application.activity.date }}
+                <br/>
+                報名人數: {{ application.participant_count }}
+                <form method="POST" action="{% url 'cancel_application' application.activity.id %}">
+                    {% csrf_token %}
+                    <input type="submit" value="取消報名" class="btn btn-danger">
+                </form>
+            </li>
+        {% empty %}
+            <p>您尚未報名任何活動。</p>
+        {% endfor %}
+    </ul>
+    <p>已參加的活動：</p>
+    <ul>
+        {% for h_application in history_activities %}
+            <li>
+                <strong>{{ h_application.activity.name }}</strong> - {{ h_application.activity.date }}
+                <br/>
+                報名人數: {{ h_application.participant_count }}
+            </li>
+        {% empty %}
+            <p>您沒有任何活動紀錄。</p>
+        {% endfor %}
+    </ul>
+    
+</div>
+{% endblock %}

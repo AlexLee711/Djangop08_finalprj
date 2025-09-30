@@ -1,0 +1,31 @@
+<!-- poll.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+<div class="container">
+    {% for message in messages %}
+    <div class='alert alert-{{ message.tags }}'>{{ message }}</div>
+    {% endfor %}
+<h1>投票與調查</h1>
+<p>說明：每位住戶皆可進行投票，並請注意各項投票之截止日期，於日期內皆可投票及更改投票的選項。投票為不記名，皆不會看見其他人的投票選擇。</p>
+<hr>
+<h4>進行中的投票/調查：</h4>
+<ul>
+  {% for p in poll %}
+  {% if p.enabled %}
+  <li>{{ p.date_created }} ： <a href="{% url 'poll_detail' pk=p.id %}">{{ p.subject }}</a> (投票截止日期：{{ p.end_date }})</li>
+  {% endif %}
+  {% endfor %}
+</ul>
+<hr>
+<h4>已截止的投票/調查：</h4>
+<ul>
+  {% for p in poll %}
+  {% if not p.enabled %}
+  <li>投票期間({{ p.date_created }} ~ {{ p.end_date }}) ： <a href="{% url 'poll_detail' pk=p.id %}">{{ p.subject }}</a> </li>
+  {% endif %}
+  {% endfor %}
+</ul>
+</div>
+{% endblock %}

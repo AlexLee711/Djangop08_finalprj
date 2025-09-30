@@ -1,0 +1,113 @@
+<!-- userinfo.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+<div class='container'>
+    {% if message %}
+    <div class='alert alert-warning'>{{ message }}</div>
+    {% endif%}
+</div>
+<div class='container'>
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='panel panel-default'>
+                <div class='panel-heading' align=center>
+                    <h1>使用者資訊</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class="panel panel-primary">
+                <div class="panel-heading" align=center>
+                    {{ userinfo.user.username | upper }}
+                </div>
+                <div class="panel-body">
+                    <p>棟數：{{userinfo.build}}</p>
+                    <p>樓層：{{userinfo.floor}}</p>
+                    <p>戶別：{{userinfo.household}}</p>
+                    <p>連絡電話：{{userinfo.phone}}</p>
+                </div>
+                <div class="panel-footer">
+                    <button href="#HelpModal" class="btn btn-warning" data-toggle="modal">我要修改個人資料</button>
+                </div>
+            </div>
+        </div>        
+    </div>
+        
+    </div>
+    <div class="modal fade" id="HelpModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span>&times;</span></button>
+            <h3 class="modal-title">修改個人資料</h3>
+          </div>
+
+          <div class="modal-body">
+            <form name='myname' id="profileForm" action='.' method='POST'>
+                {% csrf_token %}
+                <div class = "form-group">
+                    <label for="id_build">棟數：</label>
+                    {{ profile_form.build}}
+                </div>
+                <div class = "form-group">
+                    <label for="id_floor">樓層：</label>
+                    {{ profile_form.floor}}
+                </div>
+                <div class = "form-group">
+                    <label for="id_household">戶別：</label>
+                    {{ profile_form.household}}
+                </div>
+                <div class = "form-group">
+                    <label for="id_phone">電話：</label>
+                    {{ profile_form.phone}}
+                </div>
+                <br/>
+                <center>
+                    <input type='submit' value='修改個人資料' class="btn btn-primary">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消變更修改</button>
+                </center>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<form name='myname' id="profileForm" action='.' method='POST'>
+        {% csrf_token %}
+        <div class = "form-group">
+            <label for="id_build">棟數：</label>
+            {{ profile_form.build}}
+        </div>
+        <div class = "form-group">
+            <label for="id_floor">樓層：</label>
+            {{ profile_form.floor}}
+        </div>
+        <div class = "form-group">
+            <label for="id_household">戶別：</label>
+            {{ profile_form.household}}
+        </div>
+        <div class = "form-group">
+            <label for="id_phone">電話：</label>
+            {{ profile_form.phone}}
+        </div>
+        <br/>
+        <input type='submit' value='修改個人資料' class="btn btn-primary">
+    </form>-->
+
+<script>
+    document.getElementById('profileForm').addEventListener('submit', function(event) {
+        var floorInput = document.getElementById('{{ profile_form.floor.id_for_label }}');
+        var floorValue = parseInt(floorInput.value);
+        
+        if (floorValue < 2 || floorValue > 15) {
+            event.preventDefault(); // 阻止表單提交
+            alert('樓層必須在 2 到 15 之間');
+        }
+    });
+    </script>
+
+{% endblock %}

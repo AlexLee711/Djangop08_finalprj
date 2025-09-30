@@ -1,0 +1,41 @@
+<!-- post.html (Final_PRJ) -->
+{% extends "base.html" %}
+{% block title %} 天天誼家公寓管理網{% endblock %}
+{% block content %}
+<!-- 這裡放我們要呈現的內容-->
+{% for p in post %}
+{% if forloop.first %}
+<div class="container">
+    {% for message in messages %}
+    <div class='alert alert-{{ message.tags }}'>{{ message }}</div>
+    {% endfor %}
+    <h1>社區布告欄 公告</h1>
+    <hr>
+    <table class="table table-hover" id="table" data-toggle="table" data-search="true" data-pagination="true" data-id-field="id" data-page-size="5" data-page-number="1" data-page-list="[10, 25, 50, 100, all]" data-response-handler="responseHandler">
+        <thead>
+        <tr bgcolor='#333533' style="color: white">
+            <td width=100>標題</td>
+            <td width=250>內容</td>
+            <td width=50>公告人</td>
+            <td width=50>單位</td>
+            <td width=100>發布時間</td>
+        </tr>
+        </thead>
+    {% endif %}
+        <tbody>
+        <tr bgcolor='{% cycle "#cfdbd5" "e8eddf" %}'>
+            <td><a href='/postdetails/{{p.slug}}'>{{ p.title }}</a></td>
+            <td>{{ p.body }}</td>
+            <td>{{ p.person }}</td>
+            <td>{{ p.get_unit_display }}</td>
+            <td>{{ p.pub_date }}</td>
+        </tr>
+        </tbody>
+        {% if forloop.last %}
+    </table>
+    {% endif %}
+    {% empty %}
+    <h3>暫無公告</h3>
+    {% endfor %}
+</div>
+{% endblock %}
